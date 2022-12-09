@@ -13,7 +13,7 @@ const map = new Map({
   ],
   view: new View({
     center: fromLonLat([10, 51.2]),
-    zoom: 6
+    zoom: 5
 	
   })
 });
