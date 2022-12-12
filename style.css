@@ -8,18 +8,89 @@ html, body {
 }
 #map {
   position: absolute;
-  top: 0;
-  bottom: 0;
+  top: 10.5%;
+  bottom: 10%;
   width: 75%;
+  height: 80%;
   
 }
 
-#rechteck {
+#rec {
 	position: absolute;
-	top: 0;
-	bottom: 0;
-	width: 100%; 
+	top: 10%;
+	bottom: 10%;
+	 
 }
 
+#button {
+	position: absolute;
+	top: 18%;
+	width: 21.5%
+}
+
+#button1 {
+	position: absolute;
+	top: 24%;
+	width: 21.5%
+}
+
+#button2 {
+	position: absolute;
+	top: 30%;
+	width: 21.5%
+}
+
+#button3 {
+	position: absolute;
+	top: 36%;
+	width: 21.5%
+}
+
+#button4 {
+	position: absolute;
+	top: 50%;
+	height: 10%;
+	width: 10%
+}
+
+#button5 {
+	position: absolute;
+	top: 50%;
+	width: 10%;
+	height: 10%;
+	left: 88.5%
+}
+
+#button6 {
+	position: absolute;
+	top: 62%;
+	height: 10%;
+	width: 10%
+}
+
+#button7 {
+	position: absolute;
+	top: 62%;
+	width: 10%;
+	height: 10%;
+	left: 88.5%
+}
+
+#button8 {
+	position: absolute;
+	top: 78%;
+	width: 21.5%
+}
+
+#button9 {
+	position: absolute;
+	top: 84%;
+	width: 21.5%
+}
+
+#tex {
+	position: absolute;
+	
+}
 
 

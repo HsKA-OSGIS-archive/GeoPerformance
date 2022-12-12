@@ -2,59 +2,87 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+	
     <link rel="icon" type="image/x-icon" href="https://openlayers.org/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GeoPerformance</title>
+	<title>GeoPerformance</title>
+	
 	<style>
-
-	.map {
-        width: 75%;
-        height: 80%;
-		margin-top: 5%;
-      }
+	.button {
+		background-color: #51657F; 
+		color: white;
+		border: 2px solid #000000;
+		padding: 0.5%;
+		border-radius: 10px; 
+		left: 77%;
+		position: center;
+		cursor: pointer;
+	}
 	
-     <!--  a.skiplink {
-        position: absolute;
-        clip: rect(1px, 1px, 1px, 1px);
-        padding: 0;
-        border: 0;
-        height: 1px;
-        width: 1px;
-        overflow: hidden;
-      }
-      a.skiplink:focus {
-        clip: auto;
-        height: auto;
-        width: auto;
-        
-        padding: 0.3em;
-      } -->
-	  
-	  
-    </style>
+	.buttonA {
+		background-color: #51657F; 
+		color: white;
+		border: 2px solid #000000;
+		padding: 0.5%;
+		border-radius: 10px; 
+		left: 77%;
+		position: center;
+		cursor: pointer;
+	}
+	
+  
+	</style>
   </head>
+  
   <body>
-	
-	<svg width = "100%" height = "100%">
-		<rect width="100%" height="100%" fill="#51657F" opacity=""></rect>
-		
-		<text x="4%" y="7%" fill="white" font-family="sans-serif" font-size="24px">GeoPerformance</text>
-		<text x="2%" y="97%" fill="white" font-family="sans-serif" font-size="20px">Hochschule Karlsruhe | OpenSourceGIS | Felix Vortisch, Ida Hausmann, Lars Ried and Maria Siebert</text>
-		
-		<rect x="75%" y="10%" width="75%" height="80%" fill="#8995AB" tabindex="0"></rect>
-		
-		<rect x="75.5%" y="11%" width="24%" height="31%" fill="#8995AB" ></rect>
-		<text x="83%" y="16%" fill="white" font-family="sans-serif" font-size="20px">Cange the Scale</text>
-		<button id="Germany">Zoom out</button>
-		<rect x="75.5%" y="43%" width="24%" height="30%" fill="#8995AB" ></rect>
-		
-		<rect x="75.5%" y="74%" width="24%" height="15%" fill="#8995AB" ></rect>
-		
-	</svg>
 	
 	<div id="map" class="map" tabindex="0"></div>
 	<script type="module" src="main.js"></script>
 	
+	<svg id="header" width = "100%" height = "10%">
+		<!-- Hintergrund  -->
+		<rect width="100%" height="100%" fill="#51657F" opacity=""></rect>
+		<text x="2%" y="65%" fill="white" font-family="sans-serif" font-size="24px">GeoPerformance</text>	
+	</svg>
+	
+	
+	<svg id="main" width = "100%" height = "80%">
+		<!-- Sidemenu -->
+		<rect x="75%" y="0%" width="25%" height="80%" margin="5%" fill="#ffffff"></rect>
+		
+		<!-- rec_1 -->
+		<rect x="75.3%" y="0%" width="25%" height="40%" margin="5%" fill="#8995AB"></rect>
+		<text x="83%" y="6%" font-family="sans-serif" font-size="20px" fill="white">Number of Points</text>
+		
+		<!-- rec_2 -->
+		<rect x="75.3%" y="40.5%" width="25%" height="40%" margin="5%" fill="#8995AB"></rect>
+		<text x="83%" y="46%" fill="white" font-family="sans-serif" font-size="20px">Run the Algorithm</text>
+		
+		<!-- rec_3 -->
+		<rect x="75.3%" y="81%" width="25%" height="19%" margin="5%" fill="#8995AB"></rect>
+		
+		<!-- Buttons -->
+		<div><button id="button" class="button" onclick="window.location.href = 'https://openlayers.org/doc/quickstart.html';">OpenLayers - Quick Start</button></div>
+		<div><button id="button1" class="button" onclick="window.location.href = 'https://www.imis.bfs.de/geoportal/?permalink=map%2F967463%2F6299225%2F10%257Clayers%2F%257B%2522layers%2522%253A%255B%257B%2522uuid%2522%253A%25223fb037d6-94c3-4449-8218-7afa62bcecc9%2522%252C%2522isVisible%2522%253A1%252C%2522opacity%2522%253A0.75%252C%2522filters%2522%253A%255B%255D%257D%252C%257B%2522uuid%2522%253A%2522fe442e73-df90-4f4b-a7d9-e7ef73aefe32%2522%252C%2522isVisible%2522%253A0%252C%2522opacity%2522%253A0.75%252C%2522filters%2522%253A%255B%255D%257D%252C%257B%2522uuid%2522%253A%2522f11e365a-6d80-4942-aa65-7607c637438a%2522%252C%2522isVisible%2522%253A1%252C%2522opacity%2522%253A1%252C%2522filters%2522%253A%255B%257B%2522type%2522%253A%2522pointintime%2522%252C%2522effectivedatetime%2522%253A1666922400000%257D%255D%257D%252C%257B%2522uuid%2522%253A%25220790a4e9-7d76-4c37-9843-6be28f80b916%2522%252C%2522isVisible%2522%253A1%252C%2522opacity%2522%253A1%252C%2522filters%2522%253A%255B%257B%2522type%2522%253A%2522pointintime%2522%252C%2522effectivedatetime%2522%253A1666922400000%257D%252C%257B%2522type%2522%253A%2522value%2522%252C%2522effectivevalue%2522%253A%255B%2522%27BfS%27%2522%255D%252C%2522alias%2522%253A%2522Messnetz%2522%252C%2522param%2522%253A%2522source%2522%257D%255D%257D%255D%257D%257C';">BfS Geoportal</button></div>
+		<div><button id="button2" class="button" onclick="window.location.href = 'https://openlayers.org/doc/quickstart.html';">1.000</button></div>
+		<div><button id="button3" class="button" onclick="window.location.href = 'https://openlayers.org/doc/quickstart.html';">100</button></div>
+		
+		<div><button id="button4" class="buttonA" onclick="window.location.href = 'https://blog.ivank.net/fortunes-algorithm-and-implementation.html#impl_cpp';">Fortune's Algorithm</button></div>
+		<div><button id="button5" class="buttonA" onclick="window.location.href = 'https://openlayers.org/doc/quickstart.html';">Delauney Triangulation</button></div>
+		<div><button id="button6" class="buttonA" onclick="window.location.href = 'https://openlayers.org/doc/quickstart.html';">Jump Flooding Algorithm</button></div>
+		<div><button id="button7" class="buttonA" onclick="window.location.href = 'https://openlayers.org/doc/quickstart.html';">Divide and Conquer</button></div>
+		
+		
+		<div><button id="button8" class="button" onclick="window.location.href = 'https://openlayers.org/doc/quickstart.html';">Diagram</button></div>
+		<div><button id="button9" class="button" onclick="window.location.href = 'https://openlayers.org/doc/quickstart.html';">Clear</button></div>
+		
+		
+	</svg>
+	
+	<svg id="footer" width = "100%" height = "10%">
+		<rect width="100%" height="100%" fill="#51657F" opacity=""></rect>
+		<text x="2%" y="60%" fill="white" font-family="sans-serif" font-size="20px">Hochschule Karlsruhe | OpenSourceGIS | Ida Hausmann - Noor Rahman Liqa - Lars Ried - Maria Siebert - Felix Vortisch</text>
+	</svg>
 	
 	
   </body>
