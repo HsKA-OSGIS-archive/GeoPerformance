@@ -12,6 +12,7 @@ import Point from 'ol/geom/Point';
 import {Voronoi} from './rhill-voronoi-core.js';
 import Polygon from 'ol/geom/Polygon';
 import {extend} from 'ol/extent';
+import {Delaunay} from "https://cdn.skypack.dev/d3-delaunay@6";
 
 
 var vectorSource;
@@ -47,11 +48,11 @@ const myStyle = new Style({
 
 const polyStyle = new Style({
     stroke: new Stroke({
-      color: 'red',
-      width: 3,
+      color: 'blue',
+      width: 2,
     }),
     fill: new Fill({
-      color: 'rgba(0, 0, 255, 0.9)',
+      color: 'rgba(0, 0, 255, 0.01)',
     }),
 });
 
@@ -81,6 +82,7 @@ var map = new Map({
 var voronoiLayer;
 
 $('#button4').click(function createVoronoi(){
+	map.removeLayer(voronoiLayer)
 	var coord = [];
 	var olPolygonArray = [[[]]];
 	var voronoi = new Voronoi();
@@ -126,6 +128,65 @@ $('#button4').click(function createVoronoi(){
     geometry: new Polygon(
         
             olPolygonArray
+        
+    	)
+	});
+	//polyFeature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
+	voronoiLayer = new VectorLayer({
+    	source: new VectorSource({
+        	features: [
+        	polyFeature]
+    	}),
+    	style: polyStyle
+	});
+	//console.log(vectorLayer);
+	
+	map.addLayer(voronoiLayer);
+			
+});
+
+$('#button5').click(function createVoronoiDelaunay(){
+	map.removeLayer(voronoiLayer)
+	var coord = [];
+	var delaunay, voronoi;
+	
+	
+	
+    var features = vectorSource.getFeatures();
+    var extent = features[0].getGeometry().getExtent().slice(0);
+    features.forEach(function(feature){ extend(extent,feature.getGeometry().getExtent())});
+    
+    //var bbox = {xl: extent[0], xr: extent[2], yt: extent[1], yb: extent[3]};
+    //console.log(bbox);
+    features.forEach((feature) => {
+        var temp = feature.getGeometry().getCoordinates();
+        coord.push([temp[0], temp[1]]);
+    });
+    
+    const start = performance.now();
+    delaunay = Delaunay.from(coord);
+	voronoi = delaunay.voronoi(extent);
+	const end = performance.now();
+	console.log(`Execution time: ${end - start} ms`);
+	//console.log(voronoi);
+	
+	const simplifiedPolygons = [];
+
+    for(let cell of voronoi.cellPolygons()) {
+      let polygon = [];
+
+      for(let vertex of cell) {
+        polygon.push([vertex[0], vertex[1]]);
+      }
+
+      simplifiedPolygons.push(polygon);
+    }
+	//console.log(simplifiedPolygons);
+	
+	var polyFeature = new Feature({
+    geometry: new Polygon(
+        
+            simplifiedPolygons
         
     	)
 	});
