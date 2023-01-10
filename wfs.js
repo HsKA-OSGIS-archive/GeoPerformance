@@ -13,10 +13,14 @@ import {Voronoi} from './rhill-voronoi-core.js';
 import Polygon from 'ol/geom/Polygon';
 import {extend} from 'ol/extent';
 import {Delaunay} from "https://cdn.skypack.dev/d3-delaunay@6";
+import Chart from 'chart.js/auto'
 
 
 var vectorSource;
 var vector;
+var pointsI = 0;
+var timeDataFortunes = [0, 0, 0];
+var timeDataDelaunay = [0, 0, 0];
 
 vectorSource = new VectorSource({
   format: new GeoJSON(),
@@ -32,7 +36,7 @@ vectorSource = new VectorSource({
   },
   strategy: bboxStrategy,
 });
-
+ 
 
 
 const myStyle = new Style({
@@ -77,6 +81,48 @@ var map = new Map({
   }),
 });
 
+
+
+
+const cfg = {
+	type: 'line',
+	data: {
+    	datasets: [{
+    		label: "Fortunes Algorithm",
+        	strokeColor: "rgba(250,0,0,1)",
+    		data: timeDataFortunes,
+    		yAxisID: 'y'
+    	},
+    	{
+    		label: "Delaunay Algorithm",
+        	strokeColor: "rgba(250,0,0,1)",
+    		data: timeDataDelaunay,
+    	}],
+    	labels: ['100', '1000', '2000']
+	},
+	options: { 
+		scales: { 
+			x: { 
+				title: { 
+					text: 'Number of points', 
+					display: true 
+				} 
+			},
+			y: { 
+				title: { 
+					text: 'Time [ms]', 
+					display: true 
+				} 
+			}  
+		} 
+	}
+}
+
+const ctx = document.getElementById('goodCanvas1');
+
+var lineChart = new Chart(ctx, cfg);
+
+
 //var voronoi = new Voronoi();
 
 var voronoiLayer;
@@ -105,6 +151,7 @@ $('#button4').click(function createVoronoi(){
 	
 	var edges = diagram.edges,
     iEdge = edges.length,
+    time = diagram.execTime,
     edge, v;
     
     var temp = [[]];
@@ -141,15 +188,29 @@ $('#button4').click(function createVoronoi(){
 	});
 	//console.log(vectorLayer);
 	
+	switch(pointsI) {
+	  case 0:
+    	timeDataFortunes[2] = time;
+    	break;
+	  case 1:
+    	timeDataFortunes[0] = time;
+    	break;
+      case 2:
+    	timeDataFortunes[1] = time;
+    	break;
+	  default:
+    	timeDataFortunes[2] = time;
+	}
+	
 	map.addLayer(voronoiLayer);
-			
+	lineChart.update();	
 });
 
 $('#button5').click(function createVoronoiDelaunay(){
 	map.removeLayer(voronoiLayer)
 	var coord = [];
 	var delaunay, voronoi;
-	
+	var time;
 	
 	
     var features = vectorSource.getFeatures();
@@ -167,6 +228,7 @@ $('#button5').click(function createVoronoiDelaunay(){
     delaunay = Delaunay.from(coord);
 	voronoi = delaunay.voronoi(extent);
 	const end = performance.now();
+	time = end - start;
 	console.log(`Execution time: ${end - start} ms`);
 	//console.log(voronoi);
 	
@@ -200,14 +262,29 @@ $('#button5').click(function createVoronoiDelaunay(){
 	});
 	//console.log(vectorLayer);
 	
+	switch(pointsI) {
+	  case 0:
+    	timeDataDelaunay[2] = time;
+    	break;
+	  case 1:
+    	timeDataDelaunay[0] = time;
+    	break;
+      case 2:
+    	timeDataDelaunay[1] = time;
+    	break;
+	  default:
+    	timeDataDelaunay[2] = time;
+	}
+	
 	map.addLayer(voronoiLayer);
-			
+	lineChart.update();
 });
 
 
 
 
 $('#button9').click(function clearPolygons(){
+	pointsI = 0;
 	 map.removeLayer(voronoiLayer)
 	 map.removeLayer(vector)
 	// voronoiLayer.getSource().clear();
@@ -235,6 +312,7 @@ $('#button9').click(function clearPolygons(){
 });
 
 $('#button2').click(function filter1000(){
+	pointsI = 2;
 	 map.removeLayer(voronoiLayer);
 	 map.removeLayer(vector);
 	 //voronoiLayer.getSource().clear();
@@ -262,7 +340,8 @@ $('#button2').click(function filter1000(){
 	map.addLayer(vector)
 });
 
-$('#button3').click(function filter1000(){
+$('#button3').click(function filter100(){
+	pointsI = 1;
 	 map.removeLayer(voronoiLayer);
 	 map.removeLayer(vector);
 	 //voronoiLayer.getSource().clear();
