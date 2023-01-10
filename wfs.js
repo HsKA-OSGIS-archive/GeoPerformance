@@ -114,7 +114,13 @@ const cfg = {
 					display: true 
 				} 
 			}  
-		} 
+		},
+		plugins: {
+            title: {
+                display: true,
+                text: 'Performance measure of different Voronoi Algorithms'
+            }
+        } 
 	}
 }
 
