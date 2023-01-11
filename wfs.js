@@ -21,6 +21,7 @@ var vector;
 var pointsI = 0;
 var timeDataFortunes = [0, 0, 0];
 var timeDataDelaunay = [0, 0, 0];
+var timeDataDelaunayPostGIS = [0, 0, 0];
 
 vectorSource = new VectorSource({
   format: new GeoJSON(),
@@ -36,7 +37,51 @@ vectorSource = new VectorSource({
   },
   strategy: bboxStrategy,
 });
- 
+
+var polygonSource2000 = new VectorSource({
+  	format: new GeoJSON(),
+  	url: function (extent) {
+    	return (
+      	'http://localhost:8082/geoserver/GeoPerformance/wfs?service=WFS&' +
+      	'version=2.0.0&request=GetFeature&typename=GeoPerformance:polygons2000&' +
+      	'outputFormat=application/json&srsname=EPSG:3857&' +
+      	'bbox=' +
+      	extent.join(',') +
+      	',EPSG:3857'
+    	);
+  	},
+  	strategy: bboxStrategy,
+});
+
+var polygonSource1000 = new VectorSource({
+  	format: new GeoJSON(),
+  	url: function (extent) {
+    	return (
+      	'http://localhost:8082/geoserver/GeoPerformance/wfs?service=WFS&' +
+      	'version=2.0.0&request=GetFeature&typename=GeoPerformance:polygons1000&' +
+      	'outputFormat=application/json&srsname=EPSG:3857&' +
+      	'bbox=' +
+      	extent.join(',') +
+      	',EPSG:3857'
+    	);
+  	},
+  	strategy: bboxStrategy,
+});
+
+var polygonSource100 = new VectorSource({
+  	format: new GeoJSON(),
+  	url: function (extent) {
+    	return (
+      	'http://localhost:8082/geoserver/GeoPerformance/wfs?service=WFS&' +
+      	'version=2.0.0&request=GetFeature&typename=GeoPerformance:polygons100&' +
+      	'outputFormat=application/json&srsname=EPSG:3857&' +
+      	'bbox=' +
+      	extent.join(',') +
+      	',EPSG:3857'
+    	);
+  	},
+  	strategy: bboxStrategy,
+});
 
 
 const myStyle = new Style({
@@ -97,6 +142,11 @@ const cfg = {
     		label: "Delaunay Algorithm",
         	strokeColor: "rgba(250,0,0,1)",
     		data: timeDataDelaunay,
+    	},
+    	{
+    		label: "Delaunay Algorithm PostGIS",
+        	strokeColor: "rgba(125,125,0,1)",
+    		data: timeDataDelaunayPostGIS,
     	}],
     	labels: ['100', '1000', '2000']
 	},
@@ -153,7 +203,9 @@ $('#button4').click(function createVoronoi(){
     });
     
     diagram = voronoi.compute(coord, bbox);
-	console.log(diagram);
+	//
+	
+	//console.log(diagram);
 	
 	var edges = diagram.edges,
     iEdge = edges.length,
@@ -289,7 +341,103 @@ $('#button5').click(function createVoronoiDelaunay(){
 
 
 
+$('#button7').click(function createDelaunayPostGIS(){
+	map.removeLayer(voronoiLayer)
+	var polygonSource;
+	
+	switch(pointsI) {
+	  case 0:
+    	polygonSource = polygonSource2000;
+    	
+		polygonSource.once('change',function(e){
+    		if (polygonSource.getState() === 'ready') {
+        		var features = polygonSource.getFeatures();
+				var time = features[0].getProperties().time;
+				timeDataDelaunayPostGIS[2] = time;
+				lineChart.update();	
+    		}
+		});
+		
+    	break;
+	  case 1:
+    	polygonSource = polygonSource100;
+    	
+		polygonSource.once('change',function(e){
+    		if (polygonSource.getState() === 'ready') {
+        		var features = polygonSource.getFeatures();
+				var time = features[0].getProperties().time;
+				timeDataDelaunayPostGIS[0] = time;
+				lineChart.update();	
+    		}
+		});
+		
+    	break;
+      case 2:
+    	polygonSource = polygonSource1000;
+    	
+		polygonSource.once('change',function(e){
+    		if (polygonSource.getState() === 'ready') {
+        		var features = polygonSource.getFeatures();
+				var time = features[0].getProperties().time;
+				timeDataDelaunayPostGIS[1] = time;
+				lineChart.update();	
+    		}
+		});
+		
+    	break;
+	  default:
+    	polygonSource = polygonSource2000;
+    	
+		polygonSource.once('change',function(e){
+    		if (polygonSource.getState() === 'ready') {
+        		var features = polygonSource.getFeatures();
+				var time = features[0].getProperties().time;
+				timeDataDelaunayPostGIS[2] = time;
+				lineChart.update();	
+    		}
+		});
+		
+	}
+	
+	voronoiLayer = new VectorLayer({
+    	source: polygonSource,
+    	style: polyStyle
+	});
+	
+	
+	map.addLayer(voronoiLayer);	
+});
+
+
 $('#button9').click(function clearPolygons(){
+	pointsI = 0;
+	 map.removeLayer(voronoiLayer)
+	 map.removeLayer(vector)
+	// voronoiLayer.getSource().clear();
+	 vectorSource.clear();
+	 vectorSource = new VectorSource({
+  		format: new GeoJSON(),
+  		url: function (extent) {
+    		return (
+      		'http://localhost:8082/geoserver/GeoPerformance/wfs?service=WFS&' +
+      		'version=2.0.0&request=GetFeature&typename=GeoPerformance:random2000_xy&' +
+      		'outputFormat=application/json&srsname=EPSG:3857&' +
+      		'bbox=' +
+      		extent.join(',') +
+      		',EPSG:3857'
+    		);
+  		},
+  		strategy: bboxStrategy,
+	});
+	
+	vector = new VectorLayer({
+  		source: vectorSource,
+  		style: myStyle,
+	});
+	map.addLayer(vector)
+});
+
+$('#button1').click(function filter2000(){
 	pointsI = 0;
 	 map.removeLayer(voronoiLayer)
 	 map.removeLayer(vector)
