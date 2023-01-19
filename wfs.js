@@ -301,7 +301,7 @@ $('#button5').click(function createVoronoiDelaunay(){
 
       simplifiedPolygons.push(polygon);
     }
-	//console.log(simplifiedPolygons);
+	console.log(voronoi);
 	
 	var polyFeature = new Feature({
     geometry: new Polygon(
