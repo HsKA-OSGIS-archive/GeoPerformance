@@ -1,6 +1,7 @@
 # Projectwork GeoPerformance
 
 This project was developed as part of the module "Open Source GIS" of the master study course Geomatics at the Karlsruhe University of Applied Sciences. The goal of the project was to test different calculation methods for Voronoi polygons and to compare their runtimes with each other. The calculation of the polygons can differ on the one hand by the used algorithm and on the other hand also by the used calculation way. The final product is a web application where the user can choose between three sets of points and two different calculation methods and can view the calculated Voronoi polygons and the performance in a diagram.
+
 The following methods are used:
 
     • Delauney Triangulation in PostGIS (calculation on server side)
@@ -15,12 +16,15 @@ The following methods are used:
 # Set up Database and Geoserver
 	
 Create Postgresql Database with `createdb` command.
+
 Create PostGIS extension.
+
 Import Shapefiles with:
 
     for i in $(find . -iname '*.shp'); do shp2pgsql -I -s 4326 -g geom $i | psql mygeodb ; done
 
 Create Store in Geoserver and connect the Database.
+
 Publish the point layer.
 
 
@@ -47,6 +51,7 @@ Then deploy the contents of the `dist` directory to your server.  You can also r
 
 1. Start Geoserver
 2. Change the variable geoserverURL in the wfs.js file to your url
+
 3.1. In development mode:
 
 	Install Core Plugin in your browser
