@@ -16,6 +16,7 @@ import {Delaunay} from "https://cdn.skypack.dev/d3-delaunay@6";
 import Chart from 'chart.js/auto'
 
 
+var geoserverURL = 'http://localhost:8082/geoserver/GeoPerformance';
 var vectorSource;
 var vector;
 var pointsI = 0;
@@ -27,7 +28,7 @@ vectorSource = new VectorSource({
   format: new GeoJSON(),
   url: function (extent) {
     return (
-      'http://localhost:8082/geoserver/GeoPerformance/wfs?service=WFS&' +
+      geoserverURL + '/wfs?service=WFS&' +
       'version=2.0.0&request=GetFeature&typename=GeoPerformance:random2000_xy&' +
       'outputFormat=application/json&srsname=EPSG:3857&' +
       'bbox=' +
@@ -42,7 +43,7 @@ var polygonSource2000 = new VectorSource({
   	format: new GeoJSON(),
   	url: function (extent) {
     	return (
-      	'http://localhost:8082/geoserver/GeoPerformance/wfs?service=WFS&' +
+      	geoserverURL + '/wfs?service=WFS&' +
       	'version=2.0.0&request=GetFeature&typename=GeoPerformance:polygons2000&' +
       	'outputFormat=application/json&srsname=EPSG:3857&' +
       	'bbox=' +
@@ -57,7 +58,7 @@ var polygonSource1000 = new VectorSource({
   	format: new GeoJSON(),
   	url: function (extent) {
     	return (
-      	'http://localhost:8082/geoserver/GeoPerformance/wfs?service=WFS&' +
+      	geoserverURL + '/wfs?service=WFS&' +
       	'version=2.0.0&request=GetFeature&typename=GeoPerformance:polygons1000&' +
       	'outputFormat=application/json&srsname=EPSG:3857&' +
       	'bbox=' +
@@ -72,7 +73,7 @@ var polygonSource100 = new VectorSource({
   	format: new GeoJSON(),
   	url: function (extent) {
     	return (
-      	'http://localhost:8082/geoserver/GeoPerformance/wfs?service=WFS&' +
+      	geoserverURL + '/wfs?service=WFS&' +
       	'version=2.0.0&request=GetFeature&typename=GeoPerformance:polygons100&' +
       	'outputFormat=application/json&srsname=EPSG:3857&' +
       	'bbox=' +
@@ -419,7 +420,7 @@ $('#button9').click(function clearPolygons(){
   		format: new GeoJSON(),
   		url: function (extent) {
     		return (
-      		'http://localhost:8082/geoserver/GeoPerformance/wfs?service=WFS&' +
+      		geoserverURL + '/wfs?service=WFS&' +
       		'version=2.0.0&request=GetFeature&typename=GeoPerformance:random2000_xy&' +
       		'outputFormat=application/json&srsname=EPSG:3857&' +
       		'bbox=' +
@@ -447,7 +448,7 @@ $('#button1').click(function filter2000(){
   		format: new GeoJSON(),
   		url: function (extent) {
     		return (
-      		'http://localhost:8082/geoserver/GeoPerformance/wfs?service=WFS&' +
+      		geoserverURL + '/wfs?service=WFS&' +
       		'version=2.0.0&request=GetFeature&typename=GeoPerformance:random2000_xy&' +
       		'outputFormat=application/json&srsname=EPSG:3857&' +
       		'bbox=' +
@@ -475,7 +476,7 @@ $('#button2').click(function filter1000(){
   		format: new GeoJSON(),
   		url: function (extent) {
     		return (
-      		'http://localhost:8082/geoserver/GeoPerformance/wfs?service=WFS&' +
+      		geoserverURL + '/wfs?service=WFS&' +
       		'version=2.0.0&request=GetFeature&typename=GeoPerformance:random2000_xy&' +
       		'outputFormat=application/json&srsname=EPSG:3857&' +
       		'bbox=' +
@@ -504,7 +505,7 @@ $('#button3').click(function filter100(){
   		format: new GeoJSON(),
   		url: function (extent) {
     		return (
-      		'http://localhost:8082/geoserver/GeoPerformance/wfs?service=WFS&' +
+      		geoserverURL + '/wfs?service=WFS&' +
       		'version=2.0.0&request=GetFeature&typename=GeoPerformance:random2000_xy&' +
       		'outputFormat=application/json&srsname=EPSG:3857&' +
       		'bbox=' +

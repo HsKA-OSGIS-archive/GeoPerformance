@@ -8,11 +8,21 @@ The following methods are used:
         ◦ This calculation is not interactive for the user. When the correlated button is clicked, the precalculated polygons get visualized.
         ◦ This calculation is improved to connect the polygons with the attributes of the related points.
     • Delauney Triangulation using JavaScript (calculation on client side)
-        ◦ Von wem der Code?
-        ◦ Weiteres wichtige?
+        ◦ https://github.com/d3/d3-delaunay
     • Fortune’s Algorithm using JavaScript (calculation on client side)
-        ◦ Von wem code?
-        ◦ Weiteres?
+        ◦ https://github.com/gorhill/Javascript-Voronoi
+
+# Set up Database and Geoserver
+	
+Create Postgresql Database with `createdb` command.
+Create PostGIS extension.
+Import Shapefiles with:
+
+    for i in $(find . -iname '*.shp'); do shp2pgsql -I -s 4326 -g geom $i | psql mygeodb ; done
+
+Create Store in Geoserver and connect the Database.
+Publish the point layer.
+
 
 # OpenLayers + Vite
 
@@ -33,6 +43,22 @@ To generate a build ready for production:
 
 Then deploy the contents of the `dist` directory to your server.  You can also run `npm run serve` to serve the results of the `dist` directory for preview.
 
+# To run the application, follow the next steps
+
+1. Start Geoserver
+2. Change the variable geoserverURL in the wfs.js file to your url
+3.1. In development mode:
+
+	Install Core Plugin in your browser
+	
+3.2. In production mode
+
+	Use Web Proxy to deal with cross origin error
+	
+4. Start node with:
+
+    cd GeoPerformance
+    npm start
 
 # License
 
