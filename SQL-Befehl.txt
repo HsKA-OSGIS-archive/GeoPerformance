@@ -1,0 +1,15 @@
+CREATE TABLE helpTable1
+AS WITH voronoi (vor)
+AS (SELECT ST_Dump(ST_VoronoiPolygons(ST_Collect(geom)))
+FROM random2000_xy) SELECT (vor).path, (vor).geom FROM voronoi;
+
+CREATE TABLE polygons2000 AS
+SELECT random2000_xy.odl, helpTable1.*
+FROM helpTable1, random2000_xy
+WHERE ST_Contains(helpTable1.geom, random2000_xy.geom);
+
+ALTER TABLE polygons2000
+ADD time INT;
+
+UPDATE polygons2000
+SET time=223;
